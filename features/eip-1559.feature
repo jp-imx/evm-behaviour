@@ -3,19 +3,11 @@ Feature: EIP-1559
   As a wallet holder
   I want to use dynamic fee transactions
 
-  Scenario: Create a dynamic fee transaction
-    Given I send a dynamic fee transaction to 0x3816756E807ADC276c2fa820D78AEF02C2C11A38
-    When I call eth_getTransactionByHash
-    Then I get all the details for my transaction
-    And the transaction receipt should have a status of 1
-
-#   Scenario: Create a dynamic fee transaction
-#     Given I bridge 7500000000000000000 IMX to 0xA887D80C6746f8d6B586767871c5cD57E080E2E3 on L2
-#     When 0xA887D80C6746f8d6B586767871c5cD57E080E2E3 sends 10000000000000000 IMX to 0x3816756E807ADC276c2fa820D78AEF02C2C11A38 on L2 using EIP-1559
-#     Then the transaction on chain should match what was submitted
-
-#     Given I bridge 7500000000000000000 IMX to 0xA887D80C6746f8d6B586767871c5cD57E080E2E3 on L2
-#     When 0xA887D80C6746f8d6B586767871c5cD57E080E2E3 sends 10000000000000000 IMX to 0x3816756E807ADC276c2fa820D78AEF02C2C11A38 on L2 using EIP-1559
-#     And we wait for the transaction to be mined
-#     Then the receipt should have a status of 1
+  Scenario: Bridge and transfer with EIP-1559
+    Given receiver 0x3816756E807ADC276c2fa820D78AEF02C2C11A38 has a certain balance on L2
+    And sender bridges 7500000000000000000 IMX from L1 to receiver on L2
+    And sender transfers 10000000000000000 IMX to receiver on L2
+    And sender withdraws 3000000000000000000 IMX to L1 
+    Then the receiver balance on L2 should increase by 10000000000000000
+    Then sender IMX balance on L1 should increase by 3000000000000000000
 
